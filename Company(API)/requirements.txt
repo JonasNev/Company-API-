@@ -1,0 +1,39 @@
+﻿﻿Create new Web Api for employees where you can collect employee Data.
+
+Functional Requirements:
+Employee should have these columns:
+Id, FirstName, LastName, Sex (Male/Female/Unspecified)
+
+Have a api controllers for Employee where you can:
+1. Create With Post
+2. Get By Id With HttpGet
+3. GetAll with HttpGet
+4. Delete with HttpDelete
+5. Update with HttpPut
+
+Next: Create CompanyController (api) where you can do the same actions with the company:
+
+
+Company should have just a name (and employees)
+
+1. Create With Post
+2. Get By Id With HttpGet
+3. GetAll with HttpGet
+4. Delete with HttpDelete
+5. Update with HttpPut
+
+Allow Create/Put to assign company to employee, employee may not have a company (freelancer)
+
+Create endpoint 'Company/{id}/Employees' which returns all the employees that are in the company.
+Create endpoint 'Company/{id}/EmployeeCount' which returns number of employees in the company.
+
+Advanced:
+
+NonFunctional Requirements:
+1. Can you refactor Repository to use a generic Repository (yes you can).
+https://codewithmukesh.com/blog/repository-pattern-in-aspnet-core/
+2. Do not expose Entities to Api. Remap them to DTos. Try using AutoMapper.
+https://code-maze.com/automapper-net-core/
+3. Add Middleware which handles errors :
+https://code-maze.com/global-error-handling-aspnetcore/
+4. Use Enum for Sex (Enums in c#)
