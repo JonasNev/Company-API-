@@ -44,7 +44,15 @@ namespace Company_API_.Services
 
         public async Task UpdateAsync(int id, EmployeeModel employeeModel)
         {
-            var employee = await GetByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(id);
+            if (employee != null)
+            {
+                employee.Id = employeeModel.Id;
+                employee.FirstName = employeeModel.FirstName;
+                employee.LastName = employeeModel.LastName;
+                employee.Sex = employeeModel.Sex;
+            }
+
             await _employeeRepository.UpdateAsync(employee);
         }
 

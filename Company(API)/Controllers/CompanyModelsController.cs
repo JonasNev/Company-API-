@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Company_API_.Data;
 using Company_API_.Models;
+using Company_API_.Services;
 
 namespace Company_API_.Controllers
 {
@@ -15,11 +16,15 @@ namespace Company_API_.Controllers
     public class CompanyModelsController : ControllerBase
     {
         private readonly DataContext _context;
+        private CompanyService _companyService;
 
-        public CompanyModelsController(DataContext context)
+        public CompanyModelsController(DataContext context, CompanyService companyService)
         {
             _context = context;
+            _companyService = companyService;
         }
+
+
 
         // GET: api/CompanyModels
         [HttpGet]
@@ -80,7 +85,7 @@ namespace Company_API_.Controllers
             _context.CompanyModel.Add(companyModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCompanyModel", new { id = companyModel.Id }, companyModel);
+            return NoContent();
         }
 
         // DELETE: api/CompanyModels/5
@@ -103,5 +108,12 @@ namespace Company_API_.Controllers
         {
             return _context.CompanyModel.Any(e => e.Id == id);
         }
+
+        [HttpGet("{id}/employees")]
+        public async Task<IActionResult> GetCompanyEmployees(int id)
+        {
+            return Ok(await _companyService.GetCompanyEmployeesAsync(id));
+        }
+
     }
 }

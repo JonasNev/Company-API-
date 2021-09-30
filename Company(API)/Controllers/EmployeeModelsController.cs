@@ -50,12 +50,7 @@ namespace Company_API_.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, EmployeeModel employeeModel)
         {
-            if (id != employeeModel.Id)
-            {
-                return BadRequest();
-            }
             await _employeeService.UpdateAsync(id, employeeModel);
-
             return NoContent();
         }
 
@@ -77,9 +72,5 @@ namespace Company_API_.Controllers
             return NoContent();
         }
 
-        private bool EmployeeModelExists(int id)
-        {
-            return _context.Employees.Any(e => e.Id == id);
-        }
     }
 }

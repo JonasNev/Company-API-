@@ -12,6 +12,10 @@ namespace Company_API_.Repositories
     {
         private readonly DataContext _context;
 
+        public CompanyRepository(DataContext context)
+        {
+            _context = context;
+        }
 
         public async Task<List<CompanyModel>> GetAsync()
         {
@@ -20,7 +24,7 @@ namespace Company_API_.Repositories
 
         public async Task<CompanyModel> GetByIdAsync(int id)
         {
-            return await _context.CompanyModel.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.CompanyModel.Include(x => x.Employees).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task AddAsync(CompanyModel company)
@@ -32,6 +36,12 @@ namespace Company_API_.Repositories
         public async Task DeleteAsync(CompanyModel company)
         {
             _context.Remove(company);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(CompanyModel company)
+        {
+            _context.Update(company);
             await _context.SaveChangesAsync();
         }
     }

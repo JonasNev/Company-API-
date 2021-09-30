@@ -10,6 +10,6 @@ namespace Company_API_.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<EmployeeModel> Employees { get; set; }
+        public List<EmployeeModel>? Employees { get; set; }
     }
 }
