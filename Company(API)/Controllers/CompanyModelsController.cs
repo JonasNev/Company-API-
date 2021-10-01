@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Company_API_.Data;
 using Company_API_.Models;
 using Company_API_.Services;
+using Company_API_.Dtos;
 
 namespace Company_API_.Controllers
 {
@@ -30,7 +31,7 @@ namespace Company_API_.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyModel>>> GetAll()
         {
-            return await _context.CompanyModel.ToListAsync();
+            return await _companyService.GetAllAsync();
         }
 
         // GET: api/CompanyModels/5
@@ -80,9 +81,9 @@ namespace Company_API_.Controllers
 
         // POST: api/CompanyModels
         [HttpPost]
-        public async Task<ActionResult<CompanyModel>> Add(CompanyModel companyModel)
+        public async Task<ActionResult<CompanyModel>> Add(CompanyCreate company)
         {
-            _context.CompanyModel.Add(companyModel);
+            _companyService.AddAsync(company);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -92,15 +93,7 @@ namespace Company_API_.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var companyModel = await _context.CompanyModel.FindAsync(id);
-            if (companyModel == null)
-            {
-                return NotFound();
-            }
-
-            _context.CompanyModel.Remove(companyModel);
-            await _context.SaveChangesAsync();
-
+            await _companyService.DeleteAsync(id);
             return NoContent();
         }
 
@@ -109,11 +102,18 @@ namespace Company_API_.Controllers
             return _context.CompanyModel.Any(e => e.Id == id);
         }
 
-        [HttpGet("{id}/employees")]
+        [HttpGet("{id}/EmployeeModels")]
         public async Task<IActionResult> GetCompanyEmployees(int id)
         {
             return Ok(await _companyService.GetCompanyEmployeesAsync(id));
         }
 
+
+        [HttpGet("{id}/EmployeeModelsCount")]
+        public async Task<ActionResult<IEnumerable<CompanyModel>>> GetCount(int id)
+        {
+            var company = await _companyService.GetByIdAsync(id);
+            return Ok(new { count = company.Employees.Count });
+        }
     }
 }

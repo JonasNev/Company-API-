@@ -29,7 +29,7 @@ namespace Company_API_.Repositories
 
         public async Task AddAsync(CompanyModel company)
         {
-            _context.Add(company);
+            _context.CompanyModel.Add(company);
             await _context.SaveChangesAsync();
         }
 

@@ -12,6 +12,6 @@ namespace Company_API_.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Sex { get; set; }
-        public CompanyModel? Company { get; set; }
+        public int? CompanyId { get; set; }
     }
 }

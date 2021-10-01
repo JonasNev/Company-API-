@@ -11,5 +11,6 @@ namespace Company_API_.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Sex { get; set; }
+        public int? CompanyId { get; set; }
     }
 }

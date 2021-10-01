@@ -1,4 +1,5 @@
 ﻿using Company_API_.Data;
+using Company_API_.Dtos;
 using Company_API_.Models;
 using Company_API_.Repositories;
 using System;
@@ -30,9 +31,13 @@ namespace Company_API_.Services
             return await _companyRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(CompanyModel company)
+        public async Task AddAsync(CompanyCreate company)
         {
-            await _companyRepository.AddAsync(company);
+            var model = new CompanyModel()
+            {
+                Name = company.Name
+            };
+            await _companyRepository.AddAsync(model);
         }
 
         public async Task DeleteAsync(int id)
@@ -50,7 +55,6 @@ namespace Company_API_.Services
         public async Task<CompanyModel> GetCompanyEmployeesAsync(int id)
         {
             var company = await _companyRepository.GetByIdAsync(id);
-            company.
             return await _companyRepository.GetByIdAsync(id);
         }
     }

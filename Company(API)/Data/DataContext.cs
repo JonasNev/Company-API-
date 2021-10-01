@@ -19,11 +19,8 @@ namespace Company_API_.Data
         {
             modelBuilder.Entity<CompanyModel>()
                 .HasMany(c => c.Employees)
-                .WithOne(c => c.Company);
-
-            modelBuilder.Entity<EmployeeModel>()
-                .HasOne(c => c.Company)
-                .WithMany(c => c.Employees);
+                .WithOne()
+                .HasForeignKey(x => x.CompanyId);
 
         }
         public DbSet<Company_API_.Models.CompanyModel> CompanyModel { get; set; }

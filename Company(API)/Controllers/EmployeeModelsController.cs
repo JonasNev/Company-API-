@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Company_API_.Data;
 using Company_API_.Models;
 using Company_API_.Services;
+using Company_API_.Dtos;
 
 namespace Company_API_.Controllers
 {
@@ -56,12 +57,12 @@ namespace Company_API_.Controllers
 
         // POST: api/EmployeeModels
         [HttpPost]
-        public async Task<ActionResult<EmployeeModel>> Post(EmployeeModel employeeModel)
+        public async Task<ActionResult<EmployeeModel>> Post(EmployeeCreate employee)
         {
 
-            await _employeeService.AddAsync(employeeModel);
+            await _employeeService.AddAsync(employee);
 
-            return CreatedAtAction("GetEmployeeModel", new { id = employeeModel.Id }, employeeModel);
+            return NoContent();
         }
 
         // DELETE: api/EmployeeModels/5
@@ -71,6 +72,7 @@ namespace Company_API_.Controllers
             await _employeeService.DeleteAsync(id);
             return NoContent();
         }
+
 
     }
 }

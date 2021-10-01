@@ -1,4 +1,5 @@
 ﻿using Company_API_.Data;
+using Company_API_.Dtos;
 using Company_API_.Models;
 using Company_API_.Repositories;
 using System;
@@ -31,9 +32,16 @@ namespace Company_API_.Services
             return await _employeeRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(EmployeeModel employee)
+        public async Task AddAsync(EmployeeCreate employee)
         {
-            await _employeeRepository.AddAsync(employee);
+            var model = new EmployeeModel()
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Sex = employee.Sex,
+                CompanyId = employee.CompanyId
+            };
+            await _employeeRepository.AddAsync(model);
         }
 
         public async Task DeleteAsync(int id)

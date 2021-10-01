@@ -33,10 +33,11 @@ namespace Company_API_
 
             var connectionString = Configuration.GetConnectionString("Default");
             services.AddControllers();
-            services.AddDbContext<DataContext>(d => d.UseSqlServer(connectionString));
-            services.AddScoped<EmployeeService>();
-            services.AddScoped<EmployeeRepository>();
-            services.AddScoped<CompanyRepository>();
+            services.AddDbContext<DataContext>(d => d.UseSqlServer(connectionString), ServiceLifetime.Transient);
+            services.AddTransient<EmployeeService>();
+            services.AddTransient<EmployeeRepository>();
+            services.AddTransient<CompanyRepository>();
+            services.AddTransient<CompanyService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "company(api)", Version = "v1" });
