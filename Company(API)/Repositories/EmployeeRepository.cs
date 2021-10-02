@@ -10,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace Company_API_.Repositories
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : GenericRepository<EmployeeModel>, IEmployeeRepository
     {
-        private readonly DataContext _context;
 
-        public EmployeeRepository(DataContext context)
+        public EmployeeRepository(DataContext context) : base(context)
         {
-            _context = context;
+
         }
         public async Task<List<EmployeeModel>> GetAsync()
         {
