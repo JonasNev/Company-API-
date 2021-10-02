@@ -1,4 +1,5 @@
 using Company_API_.Data;
+using Company_API_.Interfaces;
 using Company_API_.Repositories;
 using Company_API_.Services;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,7 @@ namespace Company_API_
             var connectionString = Configuration.GetConnectionString("Default");
             services.AddControllers();
             services.AddDbContext<DataContext>(d => d.UseSqlServer(connectionString), ServiceLifetime.Transient);
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<EmployeeService>();
             services.AddTransient<EmployeeRepository>();
             services.AddTransient<CompanyRepository>();

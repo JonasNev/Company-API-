@@ -16,16 +16,12 @@ namespace Company_API_.Controllers
     [ApiController]
     public class CompanyModelsController : ControllerBase
     {
-        private readonly DataContext _context;
         private CompanyService _companyService;
 
-        public CompanyModelsController(DataContext context, CompanyService companyService)
+        public CompanyModelsController(CompanyService companyService)
         {
-            _context = context;
             _companyService = companyService;
         }
-
-
 
         // GET: api/CompanyModels
         [HttpGet]

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Company_API_.Interfaces
 {
-    public interface IGenericREpository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         T GetById(int id);
         IEnumerable<T> GetAll();

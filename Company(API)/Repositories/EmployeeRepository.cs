@@ -1,4 +1,5 @@
 ﻿using Company_API_.Data;
+using Company_API_.Interfaces;
 using Company_API_.Models;
 using Microsoft.EntityFrameworkCore;
 using System;

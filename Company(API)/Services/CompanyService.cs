@@ -13,7 +13,6 @@ namespace Company_API_.Services
     {
         private EmployeeRepository _employeeRepository;
         private CompanyRepository _companyRepository;
-        private readonly DataContext _context;
 
         public CompanyService(EmployeeRepository employeeRepository, CompanyRepository companyRepository)
         {
