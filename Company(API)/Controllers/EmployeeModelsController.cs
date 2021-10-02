@@ -16,12 +16,10 @@ namespace Company_API_.Controllers
     [ApiController]
     public class EmployeeModelsController : ControllerBase
     {
-        private readonly DataContext _context;
         private readonly EmployeeService _employeeService;
 
-        public EmployeeModelsController(DataContext context, EmployeeService employeeService)
+        public EmployeeModelsController(EmployeeService employeeService)
         {
-            _context = context;
             _employeeService = employeeService;
         }
 
@@ -38,12 +36,6 @@ namespace Company_API_.Controllers
         public async Task<ActionResult<EmployeeModel>> GetEmployeeModel(int id)
         {
             var employeeModel = await _employeeService.GetByIdAsync(id);
-
-            if (employeeModel == null)
-            {
-                return NotFound();
-            }
-
             return employeeModel;
         }
 

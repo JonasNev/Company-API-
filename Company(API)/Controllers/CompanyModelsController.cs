@@ -38,44 +38,15 @@ namespace Company_API_.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyModel>> GetById(int id)
         {
-            var companyModel = await _context.CompanyModel.FindAsync(id);
-
-            if (companyModel == null)
-            {
-                return NotFound();
-            }
-
-            return companyModel;
+            return await _companyService.GetByIdAsync(id);
         }
 
         // PUT: api/CompanyModels/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CompanyModel companyModel)
         {
-            if (id != companyModel.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(companyModel).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _companyService.UpdateAsync(id, companyModel);
             return NoContent();
         }
 
@@ -83,9 +54,7 @@ namespace Company_API_.Controllers
         [HttpPost]
         public async Task<ActionResult<CompanyModel>> Add(CompanyCreate company)
         {
-            _companyService.AddAsync(company);
-            await _context.SaveChangesAsync();
-
+            await _companyService.AddAsync(company);
             return NoContent();
         }
 
@@ -97,15 +66,11 @@ namespace Company_API_.Controllers
             return NoContent();
         }
 
-        private bool CompanyModelExists(int id)
-        {
-            return _context.CompanyModel.Any(e => e.Id == id);
-        }
-
         [HttpGet("{id}/EmployeeModels")]
         public async Task<IActionResult> GetCompanyEmployees(int id)
         {
-            return Ok(await _companyService.GetCompanyEmployeesAsync(id));
+            var company = await _companyService.GetCompanyEmployeesAsync(id);
+            return Ok(new { Employees = company.Employees });
         }
 
 
@@ -113,7 +78,7 @@ namespace Company_API_.Controllers
         public async Task<ActionResult<IEnumerable<CompanyModel>>> GetCount(int id)
         {
             var company = await _companyService.GetByIdAsync(id);
-            return Ok(new { count = company.Employees.Count });
+            return Ok(new { Count = company.Employees.Count });
         }
     }
 }

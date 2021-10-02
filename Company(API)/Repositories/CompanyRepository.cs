@@ -41,7 +41,8 @@ namespace Company_API_.Repositories
 
         public async Task UpdateAsync(CompanyModel company)
         {
-            _context.Update(company);
+
+            _context.Entry(company).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
     }
