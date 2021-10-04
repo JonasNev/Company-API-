@@ -65,16 +65,16 @@ namespace Company_API_.Controllers
         [HttpGet("{id}/EmployeeModels")]
         public async Task<IActionResult> GetCompanyEmployees(int id)
         {
-            var company = await _companyService.GetCompanyEmployeesAsync(id);
-            return Ok(new { Employees = company.Employees });
+            var employees = await _companyService.GetCompanyEmployeesAsync(id);
+            return Ok(new { Employees = employees });
         }
 
 
         [HttpGet("{id}/EmployeeModelsCount")]
-        public async Task<ActionResult<IEnumerable<CompanyModel>>> GetCount(int id)
+        public async Task<ActionResult> GetCount(int id)
         {
-            var company = await _companyService.GetByIdAsync(id);
-            return Ok(new { Count = company.Employees.Count });
+            var employees = await _companyService.GetCompanyEmployeesAsync(id);
+            return Ok(new { Count = employees.Count });
         }
     }
 }

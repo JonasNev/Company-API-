@@ -1,5 +1,6 @@
 ﻿using Company_API_.Data;
 using Company_API_.Dtos;
+using Company_API_.Interfaces;
 using Company_API_.Models;
 using Company_API_.Repositories;
 using System;
@@ -11,21 +12,21 @@ namespace Company_API_.Services
 {
     public class CompanyService
     {
-        private CompanyRepository _companyRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CompanyService(CompanyRepository companyRepository)
+        public CompanyService(IUnitOfWork unitOfWork)
         {
-            _companyRepository = companyRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<CompanyModel>> GetAllAsync()
         {
-            return await _companyRepository.GetAsync();
+            return await _unitOfWork.Companies.GetAll();
         }
 
         public async Task<CompanyModel> GetByIdAsync(int id)
         {
-            return await _companyRepository.GetByIdAsync(id);
+            return await _unitOfWork.Companies.GetById(id);
         }
 
         public async Task AddAsync(CompanyCreate company)
@@ -34,25 +35,28 @@ namespace Company_API_.Services
             {
                 Name = company.Name
             };
-            await _companyRepository.AddAsync(model);
+            _unitOfWork.Companies.Add(model);
+            await _unitOfWork.Complete();
         }
 
         public async Task DeleteAsync(int id)
         {
             var company = await GetByIdAsync(id);
-            await _companyRepository.DeleteAsync(company);
+            _unitOfWork.Companies.Remove(company);
+            await _unitOfWork.Complete();
         }
 
         public async Task UpdateAsync(int id, CompanyModel company)
         {
             company.Id = id;
-            await _companyRepository.UpdateAsync(company);
+            _unitOfWork.Companies.Update(company);
+            _unitOfWork.Complete();
         }
 
-        public async Task<CompanyModel> GetCompanyEmployeesAsync(int id)
+        public async Task<List<EmployeeModel>> GetCompanyEmployeesAsync(int id)
         {
-            var company = await _companyRepository.GetByIdAsync(id);
-            return await _companyRepository.GetByIdAsync(id);
+            var employees = _unitOfWork.Employees.Find(x => x.CompanyId == id);
+            return await employees;
         }
     }
 }
