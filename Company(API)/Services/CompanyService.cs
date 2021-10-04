@@ -50,7 +50,7 @@ namespace Company_API_.Services
         {
             company.Id = id;
             _unitOfWork.Companies.Update(company);
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
         }
 
         public async Task<List<EmployeeModel>> GetCompanyEmployeesAsync(int id)
