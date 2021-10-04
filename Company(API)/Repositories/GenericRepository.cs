@@ -6,16 +6,21 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Company_API_.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company_API_.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly DataContext _context;
+        private readonly DbSet<T> _dbSet;
+
         public GenericRepository(DataContext context)
         {
             _context = context;
+            _dbSet = context.Set<T>();
         }
+
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity);
@@ -24,17 +29,17 @@ namespace Company_API_.Repositories
         {
             _context.Set<T>().AddRange(entities);
         }
-        public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+        public async Task<List<T>> Find(Expression<Func<T, bool>> expression)
         {
-            return _context.Set<T>().Where(expression);
+            return await _dbSet.Where(expression).ToListAsync();
         }
-        public IEnumerable<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return await _dbSet.ToListAsync();
         }
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            return await _dbSet.FindAsync(id);
         }
         public void Remove(T entity)
         {
@@ -43,6 +48,10 @@ namespace Company_API_.Repositories
         public void RemoveRange(IEnumerable<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);
+        }
+        public virtual void Update(T entity)
+        {
+            _dbSet.Update(entity);
         }
     }
 }

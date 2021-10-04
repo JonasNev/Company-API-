@@ -1,5 +1,6 @@
 ﻿using Company_API_.Data;
 using Company_API_.Dtos;
+using Company_API_.Interfaces;
 using Company_API_.Models;
 using Company_API_.Repositories;
 using System;
@@ -12,24 +13,22 @@ namespace Company_API_.Services
 {
     public class EmployeeService
     {
-        private EmployeeRepository _employeeRepository;
-        private CompanyRepository _companyRepository;
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeService(EmployeeRepository employeeRepository, CompanyRepository companyRepository)
+        public EmployeeService(IUnitOfWork unitOfWork)
         {
-            _employeeRepository = employeeRepository;
-            _companyRepository = companyRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<EmployeeModel>> GetAllAsync()
         {
-            return await _employeeRepository.GetAsync();
+            var employees = await _unitOfWork.Employees.GetAll();
+            return employees;
         }
 
         public async Task<EmployeeModel> GetByIdAsync(int id)
         {
-            return await _employeeRepository.GetByIdAsync(id);
+            return await _unitOfWork.Employees.GetById(id);
         }
 
         public async Task AddAsync(EmployeeCreate employee)
@@ -41,18 +40,20 @@ namespace Company_API_.Services
                 Sex = employee.Sex,
                 CompanyId = employee.CompanyId
             };
-            await _employeeRepository.AddAsync(model);
+            _unitOfWork.Employees.Add(model);
+            await _unitOfWork.Complete();
         }
 
         public async Task DeleteAsync(int id)
         {
             var employee = await GetByIdAsync(id);
-            await _employeeRepository.DeleteAsync(employee);
+            _unitOfWork.Employees.Remove(employee);
+            await _unitOfWork.Complete();
         }
 
         public async Task UpdateAsync(int id, EmployeeModel employeeModel)
         {
-            var employee = await _employeeRepository.GetByIdAsync(id);
+            var employee = await _unitOfWork.Employees.GetById(id);
             if (employee != null)
             {
                 employee.Id = employeeModel.Id;
@@ -61,7 +62,7 @@ namespace Company_API_.Services
                 employee.Sex = employeeModel.Sex;
             }
 
-            await _employeeRepository.UpdateAsync(employee);
+            await _unitOfWork.Complete();
         }
 
     }

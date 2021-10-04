@@ -11,12 +11,10 @@ namespace Company_API_.Services
 {
     public class CompanyService
     {
-        private EmployeeRepository _employeeRepository;
         private CompanyRepository _companyRepository;
 
-        public CompanyService(EmployeeRepository employeeRepository, CompanyRepository companyRepository)
+        public CompanyService(CompanyRepository companyRepository)
         {
-            _employeeRepository = employeeRepository;
             _companyRepository = companyRepository;
         }
 

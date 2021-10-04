@@ -1,5 +1,7 @@
 ﻿using Company_API_.Data;
 using Company_API_.Interfaces;
+using Company_API_.Models;
+using Company_API_.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +13,23 @@ namespace Company_API_.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext _context;
-        public IEmployeeRepository Employees { get; private set; }
+        public IGenericRepository<EmployeeModel> Employees { get; private set; }
+        public IGenericRepository<CompanyModel> Companies { get; private set; }
 
-        public UnitOfWork(DataContext context, IEmployeeRepository employees)
+        public UnitOfWork(DataContext context)
         {
             _context = context;
-            Employees = employees;
+            Employees = new GenericRepository<EmployeeModel>(_context);
+            Companies = new GenericRepository<CompanyModel>(_context);
         }
-        public int Complete()
+
+        public async Task<int> Complete()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            _context.Dispose();
+            await _context.DisposeAsync();
         }
     }
 

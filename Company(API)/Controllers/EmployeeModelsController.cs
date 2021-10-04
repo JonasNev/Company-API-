@@ -18,11 +18,9 @@ namespace Company_API_.Controllers
     public class EmployeeModelsController : ControllerBase
     {
         private readonly EmployeeService _employeeService;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeModelsController(IUnitOfWork unitOfWork, EmployeeService employeeService)
+        public EmployeeModelsController(EmployeeService employeeService)
         {
-            _unitOfWork = unitOfWork;
             _employeeService = employeeService;
         }
 
@@ -31,14 +29,14 @@ namespace Company_API_.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeModel>>> GetEmployees()
         {
-            return Ok(_unitOfWork.Employees.GetAll());
+            return Ok(await _employeeService.GetAllAsync());
         }
 
         // GET: api/EmployeeModels/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeModel>> GetEmployeeModel(int id)
         {
-            return Ok(_unitOfWork.Employees.GetById(id));
+            return Ok(await _employeeService.GetByIdAsync(id));
         }
 
         // PUT: api/EmployeeModels/5
