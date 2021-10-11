@@ -9,6 +9,7 @@ using Company_API_.Data;
 using Company_API_.Models;
 using Company_API_.Services;
 using Company_API_.Dtos;
+using Microsoft.AspNetCore.Cors;
 
 namespace Company_API_.Controllers
 {

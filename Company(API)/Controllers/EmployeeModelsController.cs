@@ -10,6 +10,7 @@ using Company_API_.Models;
 using Company_API_.Services;
 using Company_API_.Dtos;
 using Company_API_.Interfaces;
+using Microsoft.AspNetCore.Cors;
 
 namespace Company_API_.Controllers
 {

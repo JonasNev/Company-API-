@@ -1,0 +1,31 @@
+<table id="employees" class="table">
+    <thead>
+      <tr>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Sex</th>
+        <th scope="col">CompanyId</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees">
+        <td>{{employee.firstName}}</td>
+        <td>{{employee.lastName}}</td>
+        <td>{{employee.sex}}</td>
+        <td>{{employee.companyId}}</td>
+        <button (click)="deleteEmployee(employee)">Delete</button>
+        <button type="submit"(click)="updateEmployee(employee)">Make Changes</button>
+      </tr>
+    </tbody>
+  </table>
+FirstName
+<input type="text" [(ngModel)]="firstName" /> 
+LastName
+<input type="text" [(ngModel)]="lastName" /> 
+Sex
+<input type="text" [(ngModel)]="sex" /> 
+Select a company
+<app-company></app-company>
+
+<button type="submit"(click)="addEmployee()">Add</button>
