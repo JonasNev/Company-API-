@@ -7,6 +7,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import { FormsModule } from '@angular/forms';
 import { CompanyComponent } from './components/company/company.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
