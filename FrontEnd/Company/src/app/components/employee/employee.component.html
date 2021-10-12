@@ -43,8 +43,15 @@
           <td><input type="text" name="sex" [(ngModel)]='sex'></td>  
           </tr> 
           <tr>  
-          <td> CompanyId</td>  
-          <td><input type="text" name="companyId" [(ngModel)]='companyId'></td>  
+          <td> Company</td>
+          <td>
+            <select required name="Company" class="form-control" [(ngModel)]='companyId'>   
+                    <option *ngFor="let company of companies"  
+                            [ngValue]="company.id">  
+                        {{company.name}}  
+                    </option>  
+                </select> 
+          </td>
           </tr>  
           <tr>  
           <td><input type="hidden" name="id" [(ngModel)]='id'></td>  

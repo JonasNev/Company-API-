@@ -1,6 +1,8 @@
 import { Employee } from 'src/app/Models/employee';
 import { EmployeeService } from 'src/app/Services/employee.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CompanyService } from 'src/app/Services/company.service';
+import { Company } from 'src/app/Models/company';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -20,17 +22,23 @@ export class EmployeeComponent implements OnInit {
   public employees: Employee[] = [
     {id: 0, firstName: "Jonas",lastName: "Nevinskas", sex: "Male", companyId:0},
   ];
+  public companies: Company[];
 
   public employeeForUpdate: Employee;
   private employeeService: EmployeeService
+  private companyService: CompanyService
 
-  constructor(employeeService: EmployeeService) { 
+  constructor(employeeService: EmployeeService, companyService: CompanyService) { 
     this.employeeService = employeeService
+    this.companyService = companyService;
   }
 
   ngOnInit(): void {
     this.employeeService.GetEmployees().subscribe((employeesFromApi) =>{
       this.employees = employeesFromApi
+    })
+    this.companyService.GetCompanies().subscribe((employeesFromApi) =>{
+      this.companies = employeesFromApi
     })
   }
   public addEmployee() : void {
